@@ -11,13 +11,10 @@ export type ItemsList = {
   id: number;
 }
 export default function App() {
-  const [items, setItems] = useState<ItemsList[] | any>();
+  const [items, setItems] = useState<Array<ItemsList>>([]);
 
   function handleAddItems(item: ItemsList) {
-    console.log(item);
-    setItems(item)
-
-    // setItems((items: ItemsList[]) => [...items, item]);
+    setItems(prev => [...prev, item])
   }
 
   function handleDeleteItem(id: Number) {
@@ -50,7 +47,7 @@ export default function App() {
         onToggleItem={handleToggleItem}
         onClearList={handleClearList}
       />
-      {/* <Stats items={items} /> */}
+      <Stats items={items} />
     </div>
   );
 }
