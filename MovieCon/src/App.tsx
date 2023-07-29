@@ -1,15 +1,21 @@
+import { useState } from 'react';
+import FilmList from './components/FilmList'
 import Navbar from './components/Navbar'
+import FilmComponent from './components/FilmComponent';
 
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const [films, setFilms] = useState([]);
+  const [id, setId] = useState()
   return (
     <>
-      <Navbar />
-      <h1 className="text-3xl font-bold underline">
-        Movie Con
-      </h1>
+      <Navbar setFilms={setFilms} />
+      <div className="comp">
+        <div className='main'>
+          <FilmList films={films} setId={setId} />
+          <FilmComponent id={id} setId={setId} />
+        </div>
+      </div>
     </>
   )
 }
