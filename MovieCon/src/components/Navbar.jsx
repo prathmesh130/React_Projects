@@ -1,9 +1,24 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
+import { getFilms } from '../services/searchfilms';
+export default function Navbar({ setFilms }) {
 
-export default function Navbar() {
+    const [value, setValue] = useState('');
+
+
+    useEffect(() => {
+        const getFilm = async () => {
+            const data = await getFilms(value);
+            setFilms(data.results);
+        }
+        getFilm();
+    }, [value])
     return (
-        <div className="rounded-sm border-2 p-4 bg-purple-900">
-            <div className=''>MovieCon</div>
+        <div className="nav-bar">
+            <h1>MovieCon</h1>
+            <div>
+                <input type="text" placeholder='search' className='search' value={value} onChange={(e) => setValue(e.target.value)} />
+            </div>
+            <div>{`Found ${10} results`}</div>
         </div>
     )
 }
