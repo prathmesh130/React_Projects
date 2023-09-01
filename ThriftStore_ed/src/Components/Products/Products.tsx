@@ -1,16 +1,29 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 export default function Products() {
+    const [product, setProducts] = useState([]);
+    useEffect(() => {
+        (async () => {
+            const response = await fetch('https://api.escuelajs.co/api/v1/products');
+            const data = await response.json();
+            setProducts(data)
+        })()
+    }, [])
     return (
         <div className='h-full p-4 grid md:grid-cols-4  gap-3 overflow-y-auto grid-cols-2'>
-            {Array.from({ length: 12 }, (_, i) => i + 1).map((num) => (
-                <Link to={`products/${num}`}>
-                    <div className='p-2 flex flex-col rounded-md justify-center items-center'>
-                        <img src="https://plus.unsplash.com/premium_photo-1666475420387-50b9bf46650f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=1000&q=60" alt="" className='w-48 rounded-md' />
-                        <span>Bugie guu</span>
-                        <span>Rs 250</span>
-                    </div>
-                </Link>
+            {product.map((p: any) => (
+                <div key={p.id} >
+                    {p.id !== 203 &&
+                        <Link to={`products/${p.id}`}>
+                            <div className='p-2 flex flex-col rounded-md justify-center items-center'>
+                                <img src={p.images[0]} alt="" className='w-48 rounded-md' />
+                                <span>{p.title}</span>
+                                <span>{p.price}</span>
+                            </div>
+                        </Link>
+                    }
+                </div>
             ))}
-        </div>
+        </div >
     )
 }
