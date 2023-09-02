@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useCartContext } from '../../Context/cartContext';
 function Product() {
     const [product, setProducts] = useState({ title: '', description: '', images: [] });
     const [loading, setLoading] = useState(false);
     const params = useParams();
+    const {  dispatch } = useCartContext();
     useEffect(() => {
         (async () => {
             setLoading(true);
@@ -13,7 +15,7 @@ function Product() {
             setLoading(false);
         })()
     }, [])
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(1);
     if (loading) {
         return <div className='text-center pt-10'>Loading...</div>
     }
@@ -31,9 +33,9 @@ function Product() {
                     <span className='mx-3 font-semibold '>{count}</span>
                     <button className='w-[25px] h-[25px] bg-slate-400 rounded-full text-center font-semibold' onClick={() => setCount(prev => prev + 1)}>+</button>
                 </div>
-                <button className='w-full md:w-2/6 py-2 bg-yellow-300 rounded-md text-xl disabled:bg-yellow-100' disabled={!count} >Add to Cart</button>
+                <button className='w-full md:w-2/6 py-2 bg-yellow-300 rounded-md text-xl disabled:bg-yellow-100' onClick={() => dispatch({ type: 'add', payload: { ...product, quantity: count } })}>Add to Cart</button>
             </div>
-        </div>
+        </div >
     )
 }
 
