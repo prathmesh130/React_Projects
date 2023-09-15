@@ -34,5 +34,11 @@ const ItemStyles = styled.div`
     }
   }
 `;
-
+const specialList = styled.div`
+background: black;
+border: 1px solid var(--offWhite);
+  box-shadow: var(--bs);
+  display: flex;
+  flex-direction: row;
+`
 export default ItemStyles;
