@@ -40,5 +40,11 @@ border: 1px solid var(--offWhite);
   box-shadow: var(--bs);
   display: flex;
   flex-direction: row;
+    line-height: 1;
+  font-size: 3rem;
+  display: inline-block;
+  position: absolute;
+  top: -3px;
+  right: -3px;
 `
 export default ItemStyles;
