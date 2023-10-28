@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom'
 import { RouterProvider } from 'react-router-dom'
 import { Provider } from 'react-redux';
+import "react-toastify/dist/ReactToastify.css";
 import appStore from './utils/appStore';
 import Layout from './components/Layout';
 import Login from './components/Login';
