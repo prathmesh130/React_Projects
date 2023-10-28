@@ -1,15 +1,14 @@
 import React, { useRef, useState } from 'react'
 import Header from './Header'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from '../utils/firebase'
-import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/userSlice';
+import { toast, ToastContainer } from 'react-toastify';
 
 export default function Login() {
     const [isSignIn, setIsSignIn] = useState(true);
     const dispatch = useDispatch()
-    const navigate = useNavigate();
     const emailRef = useRef(null);
     const passRef = useRef(null);
     const nameRef = useRef(null);
@@ -27,34 +26,40 @@ export default function Login() {
                         displayName: nameRef.current.value, photoURL: "https://example.com/jane-q-user/profile.jpg"
                     }).then(() => {
                         const { uuid, email, displayName } = auth.currentUser;
-                        dispatch(addUser({ uuid: uuid, email: email, name: displayName }))
-                        navigate('/browse')
+                        dispatch(addUser({ uuid: uuid, email: email, displayName: displayName }))
                     }).catch((error) => {
-                        // An error occurred
-                        // ...
+                        toast.error(error, {
+                            position: toast.POSITION.BOTTOM_RIGHT
+                        });
                     });
 
                 })
                 .catch((error) => {
                     const errorCode = error.code;
                     const errorMessage = error.message;
-                    // ..
+                    toast.error(errorMessage, {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    });
+
                 });
         } else {
             signInWithEmailAndPassword(auth, emailRef.current.value, passRef.current.value)
                 .then((userCredential) => {
                     const user = userCredential.user;
-                    navigate('/browse')
                 })
                 .catch((error) => {
                     const errorCode = error.code;
                     const errorMessage = error.message;
                     console.log(errorMessage)
+                    toast.error('Invalid login credentials', {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    });
                 });
         }
     }
     return (
         <div>
+            <ToastContainer />
             <Header />
             <img className='min-h-screen brightness-50 mix-blend-overlay' src="https://assets.nflxext.com/ffe/siteui/vlv3/a73c4363-1dcd-4719-b3b1-3725418fd91d/fe1147dd-78be-44aa-a0e5-2d2994305a13/IN-en-20231016-popsignuptwoweeks-perspective_alpha_website_large.jpg" alt='bgImage' />
             <form className='absolute w-3/12 p-12  mx-auto right-0 left-0 top-24 bg-black bg-opacity-75 rounded-lg min-h-[660px] min-w-[450px]' onSubmit={(e) => handleSubmit(e)}>
