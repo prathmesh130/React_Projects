@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Header from './Header';
 import { options } from '../utlity';
-import { useDispatch } from 'react-redux';
-import { addNowPlayingMovies, addTrendingMovies, addPopularMovies, addUpComingMovies } from '../utils/movieSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { addNowPlayingMovies, addTrendingMovies, addPopularMovies, addUpComingMovies, toggleGpt } from '../utils/movieSlice';
 import { MainCont } from './MainCont';
 import SecondCont from './SecondCont';
-import GptSearch from './GptSearch';
+
 function Browse() {
     const dispatch = useDispatch();
-    const [isGpt, setIsGpt] = useState(false);
+    const isGpt = useSelector(state => state.movies.isGpt)
     useEffect(() => {
         (() => {
             fetch('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1', options)
@@ -40,17 +40,15 @@ function Browse() {
     }, [])
 
     const onclickHandle = () => {
-        setIsGpt(prev => !prev)
+        dispatch(toggleGpt())
     }
     return (
         <div className='flex flex-col'>
             <Header onclickHandle={onclickHandle} isGpt={isGpt} />
-            {isGpt ? <GptSearch /> :
-                <>
-                    <MainCont />
-                    <SecondCont />
-                </>
-            }
+            <>
+                <MainCont />
+                <SecondCont />
+            </>
         </div>
     )
 }
