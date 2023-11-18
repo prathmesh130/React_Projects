@@ -13,6 +13,7 @@ import EditPost from "./Pages/EditPage.jsx";
 import AllPost from "./pages/AllPost.jsx";
 import Post from './Pages/Post.jsx'
 import AddPost from './Pages/AddPost.jsx'
+import MyAccount from './Pages/MyAccount.jsx'
 
 const router = createBrowserRouter([
   {
@@ -66,6 +67,14 @@ const router = createBrowserRouter([
       {
         path: "/post/:slug",
         element: <Post />,
+      },
+      {
+        path: "/account",
+        element: (
+          <Authlayout authentication>
+            <MyAccount />
+          </Authlayout>
+        ),
       },
     ],
   },
