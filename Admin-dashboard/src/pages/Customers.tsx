@@ -12,7 +12,7 @@ interface DataType {
   role: string;
   action: ReactElement;
 }
-
+// coloum data 
 const columns: Column<DataType>[] = [
   {
     Header: "Avatar",
